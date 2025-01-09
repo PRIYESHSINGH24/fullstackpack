@@ -1,13 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const userData = require("./mongo"); // Assuming your schema is saved as 'mongo.js'
+const userData = require("./mongo");
+const router = express.Router();
 
 const app = express();
 
-// Middleware
-app.use(express.json()); // To parse JSON request bodies
+app.use(express.json()); 
 
-// Connect to MongoDB
 mongoose.connect("mongodb://127.0.0.1:27017/CRUDAPP", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -33,14 +32,14 @@ router.post("/", async (req, res) => {
   }
 });
 
-app.post("/",async(req,res)=> {
-
-  var { name , email , age } = req.body;
-  const userData = require("./mongo");  
-  const userData = await 
-
-})
-
+router.get("/", async (req, res) => {
+  try {
+    const allUsers = await userData.find();
+    res.status(200).json(allUsers);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 app.post("/users", async (req, res) => {
   try {
